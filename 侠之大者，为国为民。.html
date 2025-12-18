@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杭电网安 - 侠之大者，为国为民</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a1a2d 0%, #1a3a5f 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 100, 200, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(200, 0, 100, 0.1) 0%, transparent 20%);
+            pointer-events: none;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #0a1a2d;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0c8ff;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .modules-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .module {
+            background: rgba(20, 40, 70, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .module::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #ffd700, #ffaa00);
+        }
+        
+        .module-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #ffd700;
+            font-size: 1.5rem;
+        }
+        
+        .module-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0c8ff;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(10, 30, 60, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: #e6e6e6;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border: 1px solid #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #ffd700, #ffaa00);
+            color: #0a1a2d;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .result-container {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(10, 30, 60, 0.5);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            display: none;
+        }
+        
+        .result-title {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-content {
+            line-height: 1.6;
+        }
+        
+        .knight-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            margin: 15px auto;
+            display: block;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+        }
+        
+        .certificate {
+            background: linear-gradient(135deg, #0a2d1a 0%, #1a5f3a 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            text-align: center;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .certificate::before {
+            content: "杭州电子科技大学";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.05);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        .certificate h3 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .seal {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff0000 0%, #aa0000 100%);
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 2px solid #ffd700;
+        }
+        
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .question-item {
+            padding: 15px;
+            background: rgba(10, 30, 60, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        
+        .question-item:hover {
+            background: rgba(20, 50, 100, 0.7);
+            border-left: 4px solid #ffd700;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            color: #a0c8ff;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            color: #ffd700;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .ai-tag {
+            display: inline-block;
+            background: rgba(0, 200, 255, 0.2);
+            color: #00c8ff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .modules-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .module {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>侠之大者，为国为民</h1>
+        </div>
+        <div class="subtitle">杭州电子科技大学网络空间安全专业 · AIGC数字化体验平台</div>
+    </div>
+    
+    <div class="container">
+        <div class="modules-container">
+            <!-- 模块1：AI侠客名片生成器 -->
+            <div class="module" id="module1">
+                <div class="module-title">
+                    <div class="module-icon">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <h2>AI侠客名片生成器</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="traits"><i class="fas fa-feather-alt"></i> 输入你的特质或专长</label>
+                    <input type="text" id="traits" placeholder="例如：擅长密码学，性格沉稳，喜欢钻研漏洞">
+                </div>
+                
+                <div class="input-group">
+                    <label for="specialty"><i class="fas fa-tools"></i> 选择你的网络安全专长</label>
+                    <select id="specialty">
+                        <option value="密码学">密码学 - 暗语传信，密文护国</option>
+                        <option value="渗透测试">渗透测试 - 探查虚实，攻防兼备</option>
+                        <option value="漏洞分析">漏洞分析 - 明察秋毫，洞若观火</option>
+                        <option value="安全运维">安全运维 - 镇守城池，固若金汤</option>
+                        <option value="数据保护">数据保护 - 护镖千里，万无一失</option>
+                    </select>
+                </div>
+                
+                <button class="btn" id="generateKnight">
+                    <i class="fas fa-magic"></i> 生成我的侠客名片
+                </button>
+                
+                <div class="loading" id="loading1">
+                    <i class="fas fa-spinner"></i>
+                    <p>AI正在铸造你的侠客身份...</p>
+                </div>
+                
+                <div class="result-container" id="knightResult">
+                    <div class="result-title">
+                        <i class="fas fa-id-card"></i> 你的侠客名片
+                        <span class="ai-tag">AIGC生成</span>
+                    </div>
+                    <div class="result-content" id="knightContent">
+                        <!-- AI生成的内容将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 模块2：江湖快问快答 -->
+            <div class="module" id="module2">
+                <div class="module-title">
+                    <div class="module-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h2>江湖快问快答</h2>
+                </div>
+                
+                <p style="margin-bottom: 20px; color: #a0c8ff;">点击问题，AI将以武侠风格回答网络安全知识</p>
+                
+                <div class="question-list">
+                    <div class="question-item" data-question="如果遇到钓鱼邮件，侠客该如何应对？">
+                        <i class="fas fa-fish"></i> 如果遇到钓鱼邮件，侠客该如何应对？
+                    </div>
+                    
+                    <div class="question-item" data-question="什么是'内功心法'（加密算法）？如何理解？">
+                        <i class="fas fa-user-secret"></i> 什么是"内功心法"（加密算法）？如何理解？
+                    </div>
+                    
+                    <div class="question-item" data-question="如何像侠客守护客栈一样保护WiFi安全？">
+                        <i class="fas fa-wifi"></i> 如何像侠客守护客栈一样保护WiFi安全？
+                    </div>
+                    
+                    <div class="question-item" data-question="发现漏洞时，怎样'行侠仗义'又不违规？">
+                        <i class="fas fa-bug"></i> 发现漏洞时，怎样"行侠仗义"又不违规？
+                    </div>
+                    
+                    <div class="question-item" data-question="一句话解释'防火墙'的武侠比喻">
+                        <i class="fas fa-fire"></i> 一句话解释"防火墙"的武侠比喻
+                    </div>
+                </div>
+                
+                <div class="input-group" style="margin-top: 25px;">
+                    <label for="customQuestion"><i class="fas fa-question-circle"></i> 或输入你的自定义问题</label>
+                    <input type="text" id="customQuestion" placeholder="输入任何关于网络安全的问题...">
+                </div>
+                
+                <button class="btn" id="askCustomQuestion">
+                    <i class="fas fa-search"></i> 询问AI侠客
+                </button>
+                
+                <div class="loading" id="loading2">
+                    <i class="fas fa-spinner"></i>
+                    <p>AI侠客正在思考答案...</p>
+                </div>
+                
+                <div class="result-container" id="answerResult">
+                    <div class="result-title">
+                        <i class="fas fa-scroll"></i> 侠客秘籍·答案
+                        <span class="ai-tag">AIGC生成</span>
+                    </div>
+                    <div class="result-content" id="answerContent">
+                        <!-- AI生成的答案将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 模块3：侠客结业证书 -->
+            <div class="module" id="module3">
+                <div class="module-title">
+                    <div class="module-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h2>侠客结业证书</h2>
+                </div>
+                
+                <p style="margin-bottom: 20px; color: #a0c8ff;">生成你的专属网络安全侠客证书，宣誓守护网络疆土</p>
+                
+                <div class="input-group">
+                    <label for="studentName"><i class="fas fa-signature"></i> 输入你的姓名</label>
+                    <input type="text" id="studentName" placeholder="请输入你的真实姓名或侠客名">
+                </div>
+                
+                <div class="input-group">
+                    <label for="achievement"><i class="fas fa-trophy"></i> 选择你的成就</label>
+                    <select id="achievement">
+                        <option value="网络安全入门弟子">网络安全入门弟子</option>
+                        <option value="漏洞分析少侠">漏洞分析少侠</option>
+                        <option value="密码学传人">密码学传人</option>
+                        <option value="安全防御高手">安全防御高手</option>
+                        <option value="网络守护大侠">网络守护大侠</option>
+                    </select>
+                </div>
+                
+                <button class="btn" id="generateCertificate">
+                    <i class="fas fa-certificate"></i> 生成侠客结业证书
+                </button>
+                
+                <div class="certificate" id="certificateResult">
+                    <h3>网络安全侠客结业证书</h3>
+                    <p>兹证明</p>
+                    <h2 id="certName" style="color: #ffd700; font-size: 2.5rem; margin: 15px 0;">【姓名】</h2>
+                    <p>已完成网络安全修行，授予</p>
+                    <p id="certAchievement" style="font-size: 1.5rem; color: #a0c8ff; margin: 10px 0;">【成就称号】</p>
+                    <p>愿秉持"侠之大者，为国为民"之精神，</p>
+                    <p>守护网络疆土，保卫数字家园。</p>
+                    
+                    <div class="seal">
+                        杭电<br>网安
+                    </div>
+                    
+                    <p style="margin-top: 20px;">杭州电子科技大学网络空间安全专业</p>
+                    <p id="certDate">2025年12月14日</p>
+                    
+                    <button class="btn" id="downloadCert" style="width: auto; margin-top: 25px;">
+                        <i class="fas fa-download"></i> 下载证书
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>杭州电子科技大学网络空间安全专业 · AIGC大赛参赛作品</p>
+            <p>本作品使用AIGC技术生成内容，仅用于展示与教育目的</p>
+            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i> 代码开源 · <i class="fas fa-heart" style="color: #ff6b6b;"></i> 弘扬侠义精神
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 模块1：AI侠客名片生成器
+        document.getElementById('generateKnight').addEventListener('click', function() {
+            const traits = document.getElementById('traits').value;
+            const specialty = document.getElementById('specialty').value;
+            
+            if (!traits.trim()) {
+                alert('请输入你的特质或专长');
+                return;
+            }
+            
+            // 显示加载动画
+            document.getElementById('loading1').style.display = 'block';
+            document.getElementById('knightResult').style.display = 'none';
+            
+            // 模拟AI生成过程（实际应用中应调用AI API）
+            setTimeout(() => {
+                // 根据输入生成侠客信息
+                const knightData = generateKnightData(traits, specialty);
+                
+                // 显示结果
+                document.getElementById('knightContent').innerHTML = knightData.html;
+                document.getElementById('knightResult').style.display = 'block';
+                document.getElementById('loading1').style.display = 'none';
+            }, 1500);
+        });
+        
+        // 生成侠客数据函数
+        function generateKnightData(traits, specialty) {
+            // 侠客名字库
+            const firstNames = ['凌云', '惊鸿', '玄机', '破军', '御风', '星河', '擎天', '追影'];
+            const lastNames = ['剑客', '刀侠', '隐士', '行者', '护卫', '密使', '宗师', '少侠'];
+            
+            const knightName = firstNames[Math.floor(Math.random() * firstNames.length)] + 
+                             lastNames[Math.floor(Math.random() * lastNames.length)];
+            
+            // 武器库（对应不同专长）
+            const weapons = {
+                '密码学': ['密文剑', '暗语扇', '隐字镖'],
+                '渗透测试': ['无影针', '穿云箭', '破阵矛'],
+                '漏洞分析': ['明察镜', '洞悉眼', '寻隙刃'],
+                '安全运维': ['镇守盾', '固城戟', '巡防鞭'],
+                '数据保护': ['护镖旗', '万全甲', '守密符']
+            };
+            
+            const weapon = weapons[specialty] ? 
+                          weapons[specialty][Math.floor(Math.random() * weapons[specialty].length)] : 
+                          '侠义剑';
+            
+            // 生成描述
+            const descriptions = [
+                `身为${knightName}，你${traits}，擅长${specialty}。行走于数字江湖，${weapon}在手，守护网络世界的安宁。`,
+                `江湖人称${knightName}，以${weapon}闻名。你${traits}，在${specialty}领域造诣深厚，是网络空间的一股清流。`,
+                `数字侠客${knightName}，${traits}。凭借${weapon}与${specialty}的深厚功力，在虚拟世界中行侠仗义。`
+            ];
+            
+            const description = descriptions[Math.floor(Math.random() * descriptions.length)];
+            
+            // 侠客名言
+            const quotes = [
+                "代码如诗，安全如盾，侠义存心，守护网络疆土。",
+                "虚拟世界亦需真实侠义，网络安全便是现代江湖。",
+                "以技术为剑，以道德为盾，为国为民，守护数字家园。",
+                "网络空间无边界，侠义精神永传承。"
+            ];
+            
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            // 生成HTML
+            const html = `
+                <div style="text-align: center;">
+                    <div style="font-size: 1.8rem; color: #ffd700; margin-bottom: 10px;">${knightName}</div>
+                    <div style="color: #a0c8ff; margin-bottom: 15px;">${specialty} · ${weapon}</div>
+                    <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+                        ${description}
+                    </div>
+                    <div style="font-style: italic; color: #ffaa00; border-left: 3px solid #ffaa00; padding-left: 15px;">
+                        "${quote}"
+                    </div>
+                    <div style="margin-top: 20px; font-size: 0.9rem; color: #88aadd;">
+                        <i class="fas fa-info-circle"></i> 此名片由AIGC生成，基于你的特质和专长
+                    </div>
+                </div>
+            `;
+            
+            return { html, knightName, weapon, specialty };
+        }
+        
+        // 模块2：江湖快问快答
+        const questionItems = document.querySelectorAll('.question-item');
+        questionItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const question = this.getAttribute('data-question');
+                document.getElementById('customQuestion').value = question;
+                askAIQuestion(question);
+            });
+        });
+        
+        document.getElementById('askCustomQuestion').addEventListener('click', function() {
+            const question = document.getElementById('customQuestion').value;
+            if (!question.trim()) {
+                alert('请输入问题');
+                return;
+            }
+            askAIQuestion(question);
+        });
+        
+        function askAIQuestion(question) {
+            // 显示加载动画
+            document.getElementById('loading2').style.display = 'block';
+            document.getElementById('answerResult').style.display = 'none';
+            
+            // 模拟AI生成过程（实际应用中应调用AI API）
+            setTimeout(() => {
+                const answer = generateAnswer(question);
+                
+                // 显示结果
+                document.getElementById('answerContent').innerHTML = answer;
+                document.getElementById('answerResult').style.display = 'block';
+                document.getElementById('loading2').style.display = 'none';
+            }, 1200);
+        }
+        
+        function generateAnswer(question) {
+            // 答案库 - 武侠风格的网络安全答案
+            const answerTemplates = {
+                "钓鱼邮件": `此事好比江湖中的"易容术"，歹人伪装成可信之人。侠客应对之法：<br><br>
+                1. <strong>明察秋毫</strong>：细看发件人地址，真伪立辨<br>
+                2. <strong>谨慎试探</strong>：不轻易点击链接，不下载附件<br>
+                3. <strong>上报师门</strong>：可疑邮件立即报告安全部门<br><br>
+                <em>侠客心法：可疑之处，宁错过不轻信，方保周全。</em>`,
+                
+                "内功心法": `加密算法正如武林中的"内功心法"，是网络安全的核心根基。<br><br>
+                <strong>对称加密如"独门心法"</strong>：加密解密同一把钥匙，快捷高效<br>
+                <strong>非对称加密如"阴阳双修"</strong>：公钥私钥配对使用，安全灵活<br>
+                <strong>哈希算法如"内力印记"</strong>：生成唯一指纹，验证数据完整<br><br>
+                <em>正如内功深厚方能行走江湖，加密技术扎实才能守护数据。</em>`,
+                
+                "WiFi安全": `保护WiFi如侠客守护客栈，需层层设防：<br><br>
+                1. <strong>加固门户</strong>：使用WPA3加密，定期更换密码<br>
+                2. <strong>设下暗哨</strong>：隐藏SSID，不广播网络名<br>
+                3. <strong>审查来客</strong>：启用MAC地址过滤，只允可信设备<br>
+                4. <strong>分隔区域</strong>：设置访客网络，隔离重要设备<br><br>
+                <em>客栈安全关乎所有住客，WiFi安全影响所有连接设备。</em>`,
+                
+                "发现漏洞": `发现漏洞如侠客路见不平，但需遵循"江湖规矩"：<br><br>
+                1. <strong>暗中探查</strong>：只在自己的系统或授权范围内测试<br>
+                2. <strong>及时通报</strong>：发现漏洞立即报告相关方，附上详细说明<br>
+                3. <strong>不越界限</strong>：绝不利用漏洞获取未授权数据或破坏系统<br>
+                4. <strong>协助修复</strong>：提供修复建议，助力提升安全<br><br>
+                <em>真正的侠客，不仅发现危险，更要负责任地化解危险。</em>`,
+                
+                "防火墙": `防火墙好比"城门守卫"与"护城大阵"，甄别进出数据，阻挡恶意攻击，守护网络城池的安宁。`
+            };
+            
+            // 根据问题关键词匹配答案
+            let answer = "";
+            
+            if (question.includes('钓鱼邮件')) {
+                answer = answerTemplates['钓鱼邮件'];
+            } else if (question.includes('内功心法') || question.includes('加密算法')) {
+                answer = answerTemplates['内功心法'];
+            } else if (question.includes('WiFi') || question.includes('wifi') || question.includes('无线')) {
+                answer = answerTemplates['WiFi安全'];
+            } else if (question.includes('漏洞') && (question.includes('发现') || question.includes('行侠仗义'))) {
+                answer = answerTemplates['发现漏洞'];
+            } else if (question.includes('防火墙')) {
+                answer = answerTemplates['防火墙'];
+            } else {
+                // 默认答案
+                answer = `关于"${question}"，侠客之道在于：<br><br>
+                1. <strong>知行合一</strong>：理论学习与实际操作相结合<br>
+                2. <strong>防患未然</strong>：预防胜于补救，日常防护不可松懈<br>
+                3. <strong{>持续精进</strong>：技术日新月异，需不断学习新知识<br>
+                4. <strong>恪守道德</strong>：技术能力应用于正道，为国为民<br><br>
+                <em>网络安全如逆水行舟，不进则退；侠客精神如明灯指引，不忘初心。</em>`;
+            }
+            
+            // 添加问题
+            return `
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #ffd700;">问题：</strong> ${question}
+                </div>
+                <div style="padding: 15px; background: rgba(10, 30, 60, 0.7); border-radius: 10px;">
+                    <strong style="color: #a0c8ff;">AI侠客解答：</strong><br><br>
+                    ${answer}
+                </div>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #88aadd;">
+                    <i class="fas fa-lightbulb"></i> 此答案为AIGC生成，仅供参考学习
+                </div>
+            `;
+        }
+        
+        // 模块3：侠客结业证书
+        document.getElementById('generateCertificate').addEventListener('click', function() {
+            const name = document.getElementById('studentName').value;
+            const achievement = document.getElementById('achievement').value;
+            
+            if (!name.trim()) {
+                alert('请输入姓名');
+                return;
+            }
+            
+            // 更新证书内容
+            document.getElementById('certName').textContent = name;
+            document.getElementById('certAchievement').textContent = achievement;
+            
+            // 设置当前日期
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+            document.getElementById('certDate').textContent = dateStr;
+            
+            // 显示证书
+            document.getElementById('certificateResult').style.display = 'block';
+            
+            // 滚动到证书位置
+            document.getElementById('certificateResult').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // 下载证书功能
+        document.getElementById('downloadCert').addEventListener('click', function() {
+            alert('在实际应用中，这里将调用HTML转图片库(如html2canvas)生成证书图片供下载。\n\n演示版本仅展示功能。');
+            
+            // 实际代码示例：
+            // html2canvas(document.getElementById('certificateResult')).then(canvas => {
+            //     const link = document.createElement('a');
+            //     link.download = '杭电网安-侠客证书.png';
+            //     link.href = canvas.toDataURL();
+            //     link.click();
+            // });
+        });
+        
+        // 初始化：显示一个示例侠客名片
+        window.addEventListener('DOMContentLoaded', function() {
+            // 设置默认值
+            document.getElementById('traits').value = "擅长密码学，性格沉稳";
+            document.getElementById('studentName').value = "网络安全少侠";
+            
+            // 生成一个示例侠客名片
+            setTimeout(() => {
+                const knightData = generateKnightData("擅长密码学，性格沉稳", "密码学");
+                document.getElementById('knightContent').innerHTML = knightData.html;
+                document.getElementById('knightResult').style.display = 'block';
+            }, 500);
+            
+            // 显示一个示例答案
+            setTimeout(() => {
+                const answer = generateAnswer("如果遇到钓鱼邮件，侠客该如何应对？");
+                document.getElementById('answerContent').innerHTML = answer;
+                document.getElementById('answerResult').style.display = 'block';
+            }, 800);
+        });// 以上代码均为ai生成
+    </script>
+</body>
+</html>
